@@ -1,0 +1,53 @@
+{
+    "name": "fahedaljghine/laravel-model-field",
+    "description": "A package to enable assigning extra fields to Eloquent Models",
+    "keywords": [
+        "laravel",
+        "extra-field"
+    ],
+    "homepage": "https://github.com/fahedaljghine/laravel-extra-field",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fahed Aljghine",
+            "email": "info@fahedaljghine.com",
+            "homepage": "https://fahedaljghine.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "illuminate/support": "^8.71|^9.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.4",
+        "orchestra/testbench": "^6.23|^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Fahedaljghine\\ExtraField\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Fahedaljghine\\ExtraField\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "phpunit --coverage-html coverage"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Fahedaljghine\\ExtraField\\ExtraFieldServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "vendor/package": "1.0.0",
+    "prefer-stable": true
+}
