@@ -1,5 +1,5 @@
 {
-    "name": "fahedaljghine/laravel-model-field",
+    "name": "fahedaljghine/laravel-extra-field",
     "description": "A package to enable assigning extra fields to Eloquent Models",
     "keywords": [
         "laravel",
