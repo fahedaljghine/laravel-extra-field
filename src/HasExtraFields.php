@@ -16,7 +16,7 @@ trait HasExtraFields
 
     public function extraValues(): HasMany
     {
-        return $this->hasMany($this->getExtraValueModelClassName(), 'model', 'model_type', $this->getModelIdColumnName())
+        return $this->hasMany($this->getExtraValueModelClassName(), $this->getModelIdColumnName())
             ->latest('id');
     }
 
