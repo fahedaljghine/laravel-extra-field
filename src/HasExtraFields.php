@@ -25,7 +25,7 @@ trait HasExtraFields
         return $this->getExtraModelClassName()::create([
             'name' => $name,
             'type' => $type,
-            'class_name' => get_class($this),
+            'model_class' => get_class($this),
         ]);
     }
 
