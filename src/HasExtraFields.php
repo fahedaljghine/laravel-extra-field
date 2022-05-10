@@ -22,6 +22,14 @@ trait HasExtraFields
 
     public function addExtraField(string $name, string $type)
     {
+        $exist = $this->getExtraModelClassName()::where('name', $name)
+            ->where('type', $type)
+            ->where('model_class', get_class($this))
+            ->first();
+
+        if ($exist)
+            return $exist;
+
         return $this->getExtraModelClassName()::create([
             'name' => $name,
             'type' => $type,
