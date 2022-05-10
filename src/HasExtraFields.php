@@ -8,6 +8,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 trait HasExtraFields
 {
+
+    public function getExtras(): array
+    {
+        $extras = [];
+        foreach ($this->extraValues as $extraValue) {
+            $extras[$extraValue->extra->name] = $extraValue->value;
+        }
+
+        return $extras;
+    }
+
     public function extras(): Collection
     {
         return $this->getExtraModelClassName()::where($this->getModelClassColumnName(), get_class($this))
