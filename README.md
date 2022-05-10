@@ -3,7 +3,6 @@
 ![Laravel 9.0](https://img.shields.io/badge/Laravel-9.0-f4645f.svg)
 ![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)
 
-
 A package to enable assigning extra fields to Eloquent Models
 
 ## Contact Me
@@ -14,12 +13,12 @@ by [Checking my website](https://fahedaljghine.com/).
 ## Installation
 
 You can install the package via composer:
+
 ``` bash
 composer require fahedaljghine/laravel-extra-field
 ```
 
 The package will automatically register itself.
-
 
 You must publish the migration with:
 
@@ -75,17 +74,106 @@ return [
 ];
 ```
 
+## Usage
+
+Add the `HasExtraFields` trait to a model you like to use extras on.
+
+```php
+use Fahedaljghine\ModelNote\HasExtraFields;
+
+class YourEloquentModel extends Model
+{
+    use HasExtraFields;
+}
+```
+
+### Add a new extra field and value
+
+You can add a new extra field like this:
+
+```php
+$extra_field = $model->addExtraField('fieldName' , 'fieldType');
+
+//assign value
+$extra_field = $model->addExtraValue($extra_field->id , 'filedValue');
+
+//assign value for other instance no need to add extra field again
+$extra_field = $otherModel->addExtraValue($extra_field->id , 'filedValue');
+
+//for another instance
+$extra_field = $anotherModel->addExtraValue($extra_field->id , 'filedValue');
+```
+
+### Add a new extra field string type and assign value
+
+if you want to add a new string extra field for your model you can do it like this:
+
+```php
+
+$model->addStringExtraValue('fieldName' , 'filedValue');
+
+//you can repeat for other object
+$otherModel->addExtraValue('fieldName', 'filedValue');
+
+```
+
+### Retrieve data
+
+```php
+
+// will give array of all extra fields with associated values
+$model->getExtras(); // ['fieldName1' => 'filedValue' , 'fieldName2' => 'filedValue']
+
+
+$model->extras(); // will return a collection of Fahedaljghine\ExtraField\Extra
+
+
+$model->extraValues ; //will return a collection of Fahedaljghine\ExtraField\ExtraValue
+
+
+$model->extraValues() ; // will return hasMany Relation of Fahedaljghine\ExtraField\ExtraValue
+```
+
+
+### Drop extra field
+```php
+
+//this wil drop the value of the given name extra field for this model
+$model->dropExtraFieldData($name) ;
+```
+
+### Drop extra field and all related data to model
+# `use with caution`
+```php
+
+//this will drop the extra data field and all associated data with it
+$model->dropExtraField($name);
+```
+
+
+### update extra field value
+sometimes you may need to update the value of the extra field, you can achive that by using this :
+```php
+
+#$extra_field @param String the name of the extra field
+#$updated_value @param String the new value
+
+$model->updateExtraValue($extra_field , $updated_value);
+```
+
 
 ### Custom models and migrations
 
-You can change the models used by specifying a class name in the `extra_model` & `extra_value_model` key of the `extra-field` config file.
+You can change the models used by specifying a class name in the `extra_model` & `extra_value_model` key of
+the `extra-field` config file.
 
-You can change the column name used in the extra_values table (`model_id` by default) when using a custom migration where you
+You can change the column name used in the extra_values table (`model_id` by default) when using a custom migration
+where you
 changed that. In that case, simply change the `model_primary_key_attribute` key of the `extra-field` config file.
 
-You can change the column name used in the extra_values table (`model_class` by default) when using a custom migration where you
+You can change the column name used in the extra_values table (`model_class` by default) when using a custom migration
+where you
 changed that. In that case, simply change the `model_name_attribute` key of the `extra-field` config file.
-
 
 ### Changelog
 

@@ -33,19 +33,94 @@ trait HasExtraFields
 
     public function addExtraField(string $name, string $type)
     {
-        $exist = $this->getExtraModelClassName()::where('name', $name)
+        $extra_field = $this->getExtraModelClassName()::where('name', $name)
             ->where('type', $type)
             ->where('model_class', get_class($this))
             ->first();
 
-        if ($exist)
-            return $exist;
+        if ($extra_field)
+            return $extra_field;
 
         return $this->getExtraModelClassName()::create([
             'name' => $name,
             'type' => $type,
             'model_class' => get_class($this),
         ]);
+    }
+
+    public function dropExtraFieldData(string $name): self
+    {
+        $extra_field = $this->getExtraModelClassName()::where('name', $name)
+            ->where('model_class', get_class($this))
+            ->first();
+
+        if ($extra_field) {
+            $this->getExtraValueModelClassName()
+                ::where('extra_id', $extra_field->id)
+                ->where('model_id', $this->id)
+                ->delete();
+
+          //  $extra_field->delete();
+        }
+
+        return $this;
+    }
+
+    public function dropExtraField(string $name): self
+    {
+        $extra_field = $this->getExtraModelClassName()::where('name', $name)
+            ->where('model_class', get_class($this))
+            ->first();
+
+        if ($extra_field) {
+            $this->getExtraValueModelClassName()
+                ::where('extra_id', $extra_field->id)
+                ->delete();
+
+              $extra_field->delete();
+        }
+
+        return $this;
+    }
+
+    public function updateExtraValue(string $extra_field, string $value): self
+    {
+        $extra_field = $this->getExtraModelClassName()::where('name', $extra_field)
+            ->where('model_class', get_class($this))
+            ->first();
+
+        if ($extra_field) {
+            $extra_value = $this->getExtraValueModelClassName()::where('extra_id', $extra_field->id)
+                ->first();
+            if ($extra_value) {
+                $extra_value->value = $value;
+                $extra_value->save();
+            }
+        }
+
+        return $this;
+    }
+
+    public function addStringExtraValue(string $extra_field, string $value): self
+    {
+        $extra_field = $this->getExtraModelClassName()::where('name', $extra_field)
+            ->where('model_class', get_class($this))
+            ->first();
+
+        if (is_null($extra_field)) {
+            $extra_field = $this->getExtraModelClassName()::where('name', $extra_field)
+                ->where('type', "string")
+                ->where('model_class', get_class($this))
+                ->first();
+        }
+
+        $this->getExtraValueModelClassName()::create([
+            'extra_id' => $extra_field->id,
+            'model_id' => $this->id,
+            'value' => $value,
+        ]);
+
+        return $this;
     }
 
     public function addExtraValue(int $extra_id, string $value): self
@@ -58,6 +133,7 @@ trait HasExtraFields
 
         return $this;
     }
+
 
     protected function getExtraValueTableName(): string
     {
