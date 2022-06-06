@@ -79,7 +79,7 @@ return [
 Add the `HasExtraFields` trait to a model you like to use extras on.
 
 ```php
-use Fahedaljghine\ModelNote\HasExtraFields;
+use Fahedaljghine\ExtraField\HasExtraFields;
 
 class YourEloquentModel extends Model
 {
