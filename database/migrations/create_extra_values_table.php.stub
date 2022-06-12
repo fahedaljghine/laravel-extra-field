@@ -10,7 +10,7 @@ class CreateExtraValuesTable extends Migration
     {
         Schema::create('extra_values', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('value');
+            $table->longtext('value');
             $table->unsignedBigInteger('extra_id');
             $table->unsignedBigInteger('model_id');
             $table->timestamps();
